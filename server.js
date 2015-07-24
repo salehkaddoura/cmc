@@ -9,8 +9,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var hbs = require('hbs');
+mongoose.connect('mongodb://localhost/cmc_test');
 // var configDB = require('./config/database.js');
-// mongoose.connect(configDB.url);
 
 var port = process.env.PORT || 8000;
 
@@ -33,6 +33,8 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
+app.use('/v1', require('./app/routes/auth'));
+app.use('/v1/user', require('./app/routes/user'));
 
 app.listen(port);
 console.log('The magic happens on port -> ' + port);

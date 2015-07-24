@@ -10,6 +10,7 @@
   "author": "Saleh Kaddoura",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.2",
     "connect-flash": "^0.1.1",
@@ -17,12 +18,14 @@
     "express": "^4.13.1",
     "express-session": "^1.11.3",
     "hbs": "^3.1.0",
+    "method-override": "^2.3.4",
     "mongoose": "^4.0.8",
     "passport": "^0.2.2",
+    "passport-facebook": "^2.0.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.3.0"
-  }, 
-  "engines" : {
+  },
+  "engines": {
     "npm": "2.1.x",
     "node": "0.10.x"
   }
