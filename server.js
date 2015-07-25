@@ -12,6 +12,8 @@ var hbs = require('hbs');
 mongoose.connect('mongodb://localhost/cmc_test');
 // var configDB = require('./config/database.js');
 
+// require('./config/passport')(passport);
+
 var port = process.env.PORT || 8000;
 
 app.use(morgan('dev'));
