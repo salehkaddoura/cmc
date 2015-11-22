@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 var passportAuth = require('../../config/passport.js');
@@ -20,6 +21,13 @@ router.post('/signup', passportAuth.authenticate('local-signup', {
     successRedirect: '/v1/user',
     failureRedirect: '/v1/signup',
     failureFlash: true
+}));
+
+router.get('/auth/facebook', passportAuth.authenticate('facebook', { scope: 'email' }));
+
+router.get('/auth/facebook/callback', passportAuth.authenticate('facebook', {
+    successRedirect: '/v1/user',
+    failureRedirect: '/v1/login',
 }));
 
 router.get('/logout', function(req, res) {

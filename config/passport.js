@@ -1,6 +1,9 @@
+'use strict';
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var passport = require('passport');
 var User = require('../app/models/users');
+var configAuth = require('./fbAuth.js');
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -64,6 +67,39 @@ passport.use('local-login', new LocalStrategy ({
         }
 
         return done(null, user);
+    });
+}));
+
+// Facebook login strategy
+passport.use(new FacebookStrategy({
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret,
+    callbackURL: configAuth.facebookAuth.callbackURL
+}, function(token, refreshToken, profile, done) {
+    process.nextTick(function() {
+        User.findOne({ 'facebook.id': profile.id }, function(err, user) {
+            if (err) {
+                return done(err);
+            }
+
+            if (user) {
+                return done(null, user);
+            } else {
+                console.log('## Profile', profile);
+
+                var newUser = new User();
+                newUser.facebook.id = profile.id;
+                newUser.facebook.token = token;
+
+                newUser.save(function(err) {
+                    if (err) {
+                        throw err;
+                    };
+
+                    return done(null, newUser);
+                });
+            };
+        });
     });
 }));
     
